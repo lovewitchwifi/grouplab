@@ -8,14 +8,14 @@ const userSchema = new mongoose.Schema({
     password: String
 })
 
-userSchema.pre('save', async function(next){
-    if (this.isModified('password')){
+userSchema.pre('save', async function(next) {
+    if (this.isModified('password')) {
         this.password = await bcrypt.hash(this.password, 8)
     }
     next()
 })
 
-userSchema.methods.generateAuthToken = async function(){
+userSchema.methods.generateAuthToken = async function() {
     const token = jwt.sign({ _id: this._id }, 'secret')
     return token
 }

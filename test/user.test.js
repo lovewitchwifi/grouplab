@@ -14,7 +14,7 @@ beforeAll(async () => {
 afterAll(async () => {
     await mongoose.connection.close()
     mongoServer.stop()
-    server.close
+    server.close()
 })
 
 afterAll((done) => done())
@@ -57,21 +57,23 @@ describe('Test the users endpoints', () => {
         .send({ name: 'Frankenstein', email: 'frank@gmail.com'})
 
         expect(response.statusCode).toBe(200)
-        expect(response.body.name).toEqual('Frankenstain')
+        expect(response.body.name).toEqual('Frankenstein')
         expect(response.body.email).toEqual('frank@gmail.com')
     })
 
     /**************************check with group on this code block**************************/
     test('It should log out a user', async () => {
-        const user = new User({ name: 'John Doe', email: 'john.doe@example.com', password: 'password123' });
+        const user = new User({ name: 'Casper the Ghost', email: 'casper@gmail.com', password: 'pizza' });
         await user.save();
+
+        const token = await user.generateAuthToken()
 
         const logoutResponse = await request(app)
         .post('/users/logout')
         .set('Authorization', `Bearer ${token}`);
 
         expect(logoutResponse.statusCode).toBe(200);
-        expect(logoutResponse.text).toEqual('User logged out successfully');
+        expect(logoutResponse.body.message).toEqual('User logged out successfully');
     })
 
     test('It should delete a user', async () => {

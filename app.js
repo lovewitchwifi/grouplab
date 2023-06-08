@@ -7,7 +7,7 @@ const app = express()
 app.use(express.static('public'))
 app.use(express.json())
 app.use(morgan('combined'))
-app.use('/user', userRoutes)
+app.use('/users', userRoutes)
 
 // router.post('/', userController.createUser)
 // router.post('/login', userController.loginUser)
